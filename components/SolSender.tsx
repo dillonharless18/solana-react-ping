@@ -5,6 +5,9 @@ import Image from 'next/image'
 import { useConnection, useWallet } from '@solana/wallet-adapter-react'
 import { LAMPORTS_PER_SOL, PublicKey, Transaction, TransactionInstruction, SystemProgram, sendAndConfirmRawTransaction } from '@solana/web3.js'
 
+
+// TODO - Compare my custom solution with the one they have here: https://github.com/Unboxed-Software/solana-send-sol-frontend/blob/main/components/SendSolForm.tsx
+
 export const SolSender: FC = () => {
 
     const { connection } = useConnection();
@@ -12,6 +15,8 @@ export const SolSender: FC = () => {
     const [balance, setBalance] = useState(0);
     const [amountToSend, setAmountToSend] = useState('');
     const [recipentAddress, setRecipientAddress] = useState('');
+    const [loading, setLoading] = useState(false);
+    const [txnSig, setTxnSig] = useState('');
 
 
     useEffect(() => {
@@ -22,6 +27,10 @@ export const SolSender: FC = () => {
             setBalance(bal / LAMPORTS_PER_SOL)
         })
     }, [connection, publicKey])
+
+    useEffect(() => {
+
+    })
 
     const onClick = (e) => {
         e.preventDefault();
@@ -34,7 +43,8 @@ export const SolSender: FC = () => {
             alert('recipient address must be 44 characters');
             return;
         }
-
+        
+        setLoading(true);
         const recipient = new PublicKey(recipentAddress);
 
         const transaction = new Transaction();
@@ -48,6 +58,8 @@ export const SolSender: FC = () => {
 
         sendTransaction(transaction, connection).then(sig => {
             console.log(`Transaction can be viewed at https://explorer.solana.com/tx/${sig}?cluster=devnet`)
+            setTxnSig(sig);
+            setLoading(false);
         })
     }
 
@@ -60,6 +72,12 @@ export const SolSender: FC = () => {
             <input style= {{margin: 10}} name='address-input' key='recipient-address' value={recipentAddress} onChange={(event) => setRecipientAddress(event.target.value)}></input>
             <br style= {{margin: 10}} />
             <button onClick={onClick} style= {{margin: 10, padding: '1em 2em'}}>Send</button>
+            <h1>Check your transaction at the link below!</h1>
+            {
+                !loading && txnSig
+                ? <a style={{color: 'white'}} href={`https://explorer.solana.com/tx/${txnSig}?cluster=devnet`}>Txn Link</a>
+                : <h1>Waiting...</h1>
+            }
         </div>
     )
 }

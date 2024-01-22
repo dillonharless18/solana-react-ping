@@ -5,27 +5,26 @@ import { AppBar } from '../components/AppBar'
 // import { BalanceDisplay } from '../components/BalanceDisplay'
 import { PingButton } from '../components/PingButton'
 import Head from 'next/head'
+import { SolSender } from '../components/SolSender'
 
-const Home: NextPage = (props) => {
+const SolSenderPage: NextPage = (props) => {
 
 
   return (
     <div className={styles.App}>
       <Head>
-        <title>Wallet-Adapter Example</title>
+        <title>Sol Sender</title>
         <meta
           name="description"
-          content="Wallet-Adapter Example"
+          content="Sol Sender"
         />
       </Head>
       <WalletContextProvider>
         <AppBar />
-        <div className={styles.AppBody}>
-          <PingButton />
-        </div>
+        <SolSender />
       </WalletContextProvider >
     </div>
   );
 }
 
-export default Home;
+export default SolSenderPage;

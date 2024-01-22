@@ -39,9 +39,11 @@ export const PingButton: FC = () => {
 
 	}
 
-	return (<div>
-		<button style={{padding: '1em 2em', backgroundColor: 'white', borderRadius: 10}} onClick={onClick}>Ping!</button>
-	</div>)
+	return (
+		<div>
+			<button style={{padding: '1em 2em', backgroundColor: 'white', borderRadius: 10}} onClick={onClick}>Ping!</button>
+		</div>
+	)
 
 }
 

@@ -23,14 +23,15 @@ export const SolSender: FC = () => {
         })
     }, [connection, publicKey])
 
-    const onClick = () => {
+    const onClick = (e) => {
+        e.preventDefault();
         if (!connection || !publicKey) return;
         if (isNaN(+amountToSend)) {
             alert('Amount to send must be a number')
             return;
         }
         if (recipentAddress.length !== 44) {
-            alert('recipient address must be 32 characters');
+            alert('recipient address must be 44 characters');
             return;
         }
 
